@@ -1,6 +1,6 @@
 import logging
 from logging.config import fileConfig
-from models import VC
+from models.vc import VC
 import configparser
 import argparse
 
