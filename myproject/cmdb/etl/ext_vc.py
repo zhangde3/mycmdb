@@ -40,10 +40,9 @@ if __name__ == '__main__':
     parser.add_argument("--host")
     args = parser.parse_args()
 
-    if args.host and args.user and args.passwd and args.port:
+    if args.host:
         cfg = configparser.ConfigParser()
         cfg.read("config/config.ini")
-        logging.debug(args.host)
         config_item = args.host
         (host, user, passwd, port) = (cfg.get(config_item, "host"), cfg.get(
             config_item, "user"), cfg.get(config_item, "passwd"), cfg.get(config_item, "port"))
