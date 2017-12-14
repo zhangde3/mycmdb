@@ -102,3 +102,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+# configure file
+./myproject/cmdb/etl/config/*.ini
