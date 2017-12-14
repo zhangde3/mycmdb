@@ -1,0 +1,167 @@
+@startuml
+
+
+
+class Organization {
+    id: int <pk>
+    name: varchar
+    location: varchar
+}
+
+abstract class CI{
+    id: int <pk>
+    name: varchar
+    org: int <fk>
+    group: int <fk>
+}
+
+Organization "1" -- "n" CI
+
+class Role #C0C0C0 {
+    id: int <pk>
+    name: varchar
+    org: int <fk>
+}
+
+Organization "1" -- "n" Role
+
+
+class User #C0C0C0 {
+    id: int <pk>
+    name: varchar
+    org: int <fk>
+    passwd: varchar
+}
+
+class RoleUser #C0C0C0 {
+    id: int <pk>
+    role: int <fk>
+    user: int <fk>
+}
+
+RoleUser "n" -- "1" User
+RoleUser "n" -- "1" Role
+
+
+Organization "1" -- "n" User
+
+
+class Datacenter {
+    location: varchar
+    name: varchar
+    org: int <fk>
+}
+
+Organization "1" -- "n" Datacenter 
+
+abstract class Model{
+    id: int <pk>
+    name: varchar
+    brand: varchar
+    org: int <fk>
+    env: varchar
+}
+
+Organization "1" -- "n" Model
+
+class ServerModel{
+}
+
+Model <|-- ServerModel
+
+abstract class Software{
+    version: varchar
+    env: varchar
+    license: varchar
+}
+
+CI <|-- Software 
+
+
+class OS{
+    family: varchar
+}
+
+Software <|-- OS
+
+class Hypervisor{
+}
+
+Software <|-- Hypervisor
+
+
+abstract class Server{
+    ip: varchar
+    mem_G: int
+    local_disk: varchar
+    power_status: varchar
+    owner: int <fk>
+    env: varchar
+}
+CI <|-- Server
+User "1" -- "n" Server
+
+class Group{
+    id: int <pk>
+    name: varchar
+    [] member()
+}
+
+Group "1" -- "many" CI
+
+
+abstract class PhysicalServer{
+    datacenter: int <fk>
+    rack: varchar
+    model: int <fk>
+    cpu_type: varchar
+    cpu_speed: varchar
+    cpu_sockets: int <fk>
+    cpu_cores: int <fk>
+    ext_disk: varchar
+    serial: varchar
+    maint status: varchar
+    maint vendor: varchar
+    maint service from: date
+    maint service to: date
+    check_date: date
+    check_by: int <fk>
+    power_ports: int
+    lan_ports: int
+    fiber_ports: int
+    fiber_card_model: varchar
+    fiber_cards: int
+}
+
+Datacenter "1" -- "n" PhysicalServer
+Server <|-- PhysicalServer
+ServerModel "1" -- "n" PhysicalServer
+User "1" -- "n" PhysicalServer
+
+class ESXServer{
+    hypervisor: int <fk>
+}
+
+class NONESXServer{
+    os: int <fk>
+}
+
+PhysicalServer <|-- ESXServer
+PhysicalServer <|-- NONESXServer
+Hypervisor "1" -- "n" ESXServer
+OS "1" -- "n" NONESXServer
+
+class VirtualServer{
+    os: int <fk>
+    host: int <fk>
+    cpu_num: int
+    hypervisor: int <fk>
+}
+
+Server <|-- VirtualServer
+Hypervisor "1" -- "n" VirtualServer
+ESXServer "1" -- "n" VirtualServer
+OS "1" -- "n" VirtualServer
+
+@enduml
+
