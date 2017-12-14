@@ -1,3 +1,9 @@
+from pyVim.connect import SmartConnect, Disconnect
+from pyVmomi import vim
+import ssl
+import atexit
+import time
+
 class VC():
     def __init__(self, vc_host, vc_user, vc_passwd, vc_port):
         context = None
