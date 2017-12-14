@@ -1,3 +1,4 @@
+import json
 import logging
 from logging.config import fileConfig
 from models.vc import VC
@@ -32,8 +33,12 @@ def ext(vc_host, vc_user, vc_passwd, vc_port):
     return vc_objects
 
 
-def to_json():
-    logger.info("start dump to json")
+def to_json(data,filename):
+    filepath = os.path.join('dump',filename)
+    logger.info("start dump to json: %s" % filepath)
+    with open(filepath,'w') as wf:
+        wf.write(json.dumps(data))
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -52,3 +57,5 @@ if __name__ == '__main__':
         logging.debug("******** %s server_list ************" % args.host)
         logging.debug(server_list)
         logging.debug(len(server_list))
+
+        to_json(server_list,"server_list.json")
