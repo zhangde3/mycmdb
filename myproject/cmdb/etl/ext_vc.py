@@ -4,6 +4,7 @@ from logging.config import fileConfig
 from models.vc import VC
 import configparser
 import argparse
+import os
 
 fileConfig('logger_config.ini')
 logger = logging.getLogger('infoLogger')
