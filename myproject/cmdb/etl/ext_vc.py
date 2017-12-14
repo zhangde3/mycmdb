@@ -11,7 +11,7 @@ logger = logging.getLogger('infoLogger')
 def ext(vc_host, vc_user, vc_passwd, vc_port):
 
     vc = VC(host, user, passwd, port)
-    logger.info("start extract %s" % )
+    logger.info("start extract %s" % host)
 
     vc_objects = {}
     server_list = []
