@@ -54,9 +54,23 @@ if __name__ == '__main__':
             config_item, "user"), cfg.get(config_item, "passwd"), cfg.get(config_item, "port"))
         vc_objects = ext(host, user, passwd, port)
         server_list = vc_objects.get('server_list')
+        vm_list = vc_objects.get('vm_list')
+        ds_list = vc_objects.get('ds_list')
+        license_list = vc_objects.get('license_list')
 
         logging.debug("******** %s server_list ************" % args.host)
-        logging.debug(server_list)
         logging.debug(len(server_list))
 
+        logging.debug("******** %s vm_list ************" % args.host)
+        logging.debug(len(vm_list))
+
+        logging.debug("******** %s ds_list ************" % args.host)
+        logging.debug(len(ds_list))
+
+        logging.debug("******** %s license_list ************" % args.host)
+        logging.debug(len(license_list))
+
         to_json(server_list,"server_list.json")
+        to_json(vm_list,"vm_list.json")
+        to_json(ds_list,"ds_list.json")
+        to_json(license_list,"license_list.json")
