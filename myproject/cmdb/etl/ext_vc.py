@@ -13,8 +13,7 @@ fileConfig('logger_config.ini')
 logger = logging.getLogger('infoLogger')
 
 
-def ext(vc_host, vc_user, vc_passwd, vc_port):
-
+def ext(host, user, passwd, port):
     vc = VC(host, user, passwd, port)
     logger.info("start extract %s" % host)
 
@@ -27,7 +26,11 @@ def ext(vc_host, vc_user, vc_passwd, vc_port):
         server_list += vc.get_server_list(dc)
         vm_list += vc.get_vm_list(dc)
         ds_list += vc.get_ds_list(dc)
-        license_list += vc.get_license_list()
+        try:
+            license_list += vc.get_license_list()
+        except Exception as e:
+            logger.waring("NoPermission")
+            continue
 
     vc_objects['server_list'] = server_list
     vc_objects['vm_list'] = vm_list
