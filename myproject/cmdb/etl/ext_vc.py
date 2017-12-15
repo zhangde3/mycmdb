@@ -26,11 +26,7 @@ def ext(host, user, passwd, port):
         server_list += vc.get_server_list(dc)
         vm_list += vc.get_vm_list(dc)
         ds_list += vc.get_ds_list(dc)
-        try:
-            license_list += vc.get_license_list()
-        except Exception as e:
-            logger.warning("NoPermission")
-            continue
+        license_list += vc.get_license_list()
 
     vc_objects['server_list'] = server_list
     vc_objects['vm_list'] = vm_list
