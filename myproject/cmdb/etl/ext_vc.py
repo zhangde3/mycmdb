@@ -7,6 +7,7 @@ import argparse
 import os
 from ftplib import FTP
 import socket
+import time
 
 fileConfig('logger_config.ini')
 logger = logging.getLogger('infoLogger')
@@ -87,17 +88,17 @@ if __name__ == '__main__':
         logging.debug("******** %s license_list ************" % args.host)
         logging.debug(len(license_list))
 
-        opt_time = time.strftime('%Y%m%d%H:%M',time.localtime(time.time()))
+        opt_time = time.strftime('%Y%m%d',time.localtime(time.time()))
 
-        to_json(server_list,"server_list_%s.json" % opt_time)
-        to_json(vm_list,"vm_list_%s.json" % opt_time)
-        to_json(ds_list,"ds_list_%s.json" % opt_time)
-        to_json(license_list,"license_list_%s.json" % opt_time)
+        to_json(server_list,"server_list_%s_%s.json" % (opt_time, args.host))
+        to_json(vm_list,"vm_list_%s_%s.json" % (opt_time, args.host))
+        to_json(ds_list,"ds_list_%s_%s.json" % (opt_time, args.host))
+        to_json(license_list,"license_list_%s_%s.json" % (opt_time, args.host))
 
-        logging.debug("******** uploading %s dumpfile to csftp ************" % args.host)
+        logging.debug("******** uploading %s dumpfile to csftp ************" % (args.host))
         logging.debug(len(license_list))
 
-        ftp_upload("server_list_%s.json" % opt_time)
-        ftp_upload("vm_list_%s.json" % opt_time)
-        ftp_upload("ds_list_%s.json" % opt_time)
-        ftp_upload("license_list_%s.json" % opt_time)
+        ftp_upload("server_list_%s_%s.json" % (opt_time, args.host))
+        ftp_upload("vm_list_%s_%s.json" % (opt_time, args.host))
+        ftp_upload("ds_list_%s_%s.json" % (opt_time, args.host))
+        ftp_upload("license_list_%s_%s.json" % (opt_time, args.host))
