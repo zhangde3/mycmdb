@@ -43,12 +43,13 @@ def to_json(data,filename):
         wf.write(json.dumps(data))
 
 
-def ftp_upload(filename,host='csftp',user='ppa',passwd='ppa',remotepath='/zhangde3/mycmdb_dump'):
+def ftp_upload(filename,host='csftp',user='ppa',passwd='ppa',remotedir='/zhangde3/mycmdb_dump'):
     ftp = FTP()
     ftp.connect(host, port=21)
     ftp.login(user, passwd)
     bufsize = 1024
     localpath = os.path.join('dump',filename)
+    remotepath = os.path.join(remotedir,filename)
     fp = open(localpath, 'rb')
     logger.info('start uploading %s to %s' % (localpath, remotepath))
     ftp.storbinary('STOR ' + remotepath, fp, bufsize)
