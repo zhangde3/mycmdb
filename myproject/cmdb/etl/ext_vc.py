@@ -56,7 +56,7 @@ def ftp_upload(filename,host='csftp',user='ppa',passwd='ppa',remotedir='/zhangde
     ftp.storbinary('STOR ' + remotepath, fp, bufsize)
     ftp.set_debuglevel(0)
     fp.close()
-    logger.info('upload %s to %s is done' % (localpath, remotepath))
+    logger.info('done')
 
 
 if __name__ == '__main__':
