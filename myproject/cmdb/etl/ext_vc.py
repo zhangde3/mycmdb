@@ -5,6 +5,8 @@ from models.vc import VC
 import configparser
 import argparse
 import os
+from ftplib import FTP
+import socket
 
 fileConfig('logger_config.ini')
 logger = logging.getLogger('infoLogger')
@@ -41,6 +43,21 @@ def to_json(data,filename):
         wf.write(json.dumps(data))
 
 
+def ftp_upload(filename,host='csftp',user='ppa',passwd='ppa',remotepath='/zhangde3/mycmdb_dump'):
+    ftp = FTP()
+    ftp.connect(host, port=21)
+    ftp.login(user, passwd)
+    bufsize = 1024
+    localpath = os.path.join('dump',filename)
+    fp = open(localpath, 'rb')
+    logger.info('start uploading %s to %s' % (localpath, remotepath))
+    ftp.storbinary('STOR ' + remotepath, fp, bufsize)
+    ftp.set_debuglevel(0)
+    ftp.close()
+    ftp.quit()
+    logger.info('upload %s to %s is done' % (localpath, remotepath))
+
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument("--host")
@@ -74,3 +91,11 @@ if __name__ == '__main__':
         to_json(vm_list,"vm_list.json")
         to_json(ds_list,"ds_list.json")
         to_json(license_list,"license_list.json")
+
+        logging.debug("******** uploading %s dumpfile to csftp ************" % args.host)
+        logging.debug(len(license_list))
+
+        ftp_upload("server_list.json")
+        ftp_upload("vm_list.json")
+        ftp_upload("ds_list.json")
+        ftp_upload("license_list.json")
