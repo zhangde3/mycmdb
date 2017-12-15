@@ -55,7 +55,6 @@ def ftp_upload(filename,host='csftp',user='ppa',passwd='ppa',remotedir='/zhangde
     ftp.storbinary('STOR ' + remotepath, fp, bufsize)
     ftp.set_debuglevel(0)
     ftp.close()
-    ftp.quit()
     logger.info('upload %s to %s is done' % (localpath, remotepath))
 
 
@@ -88,15 +87,17 @@ if __name__ == '__main__':
         logging.debug("******** %s license_list ************" % args.host)
         logging.debug(len(license_list))
 
-        to_json(server_list,"server_list.json")
-        to_json(vm_list,"vm_list.json")
-        to_json(ds_list,"ds_list.json")
-        to_json(license_list,"license_list.json")
+        opt_time = time.strftime('%Y%m%d%H:%M',time.localtime(time.time()))
+
+        to_json(server_list,"server_list_%s.json" % opt_time)
+        to_json(vm_list,"vm_list_%s.json" % opt_time)
+        to_json(ds_list,"ds_list_%s.json" % opt_time)
+        to_json(license_list,"license_list_%s.json" % opt_time)
 
         logging.debug("******** uploading %s dumpfile to csftp ************" % args.host)
         logging.debug(len(license_list))
 
-        ftp_upload("server_list.json")
-        ftp_upload("vm_list.json")
-        ftp_upload("ds_list.json")
-        ftp_upload("license_list.json")
+        ftp_upload("server_list_%s.json" % opt_time)
+        ftp_upload("vm_list_%s.json" % opt_time)
+        ftp_upload("ds_list_%s.json" % opt_time)
+        ftp_upload("license_list_%s.json" % opt_time)
