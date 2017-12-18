@@ -9,6 +9,8 @@ from ftplib import FTP
 import socket
 import time
 
+os.chdir('/home/itop/scripts/mycmdb/myproject/cmdb/etl')
+
 fileConfig('logger_config.ini')
 logger = logging.getLogger('infoLogger')
 
