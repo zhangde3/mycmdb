@@ -19,6 +19,7 @@ class VC():
             self.sync_time = time.strftime('%Y-%m-%d %H:%M:%S',time.localtime(time.time()))
             self.env='NON-PROD' if 'PP' in vc_host.upper() else 'PROD'
             self.connect = connect
+            self.src = vc_host
         atexit.register(Disconnect, connect)
 
 
@@ -58,6 +59,7 @@ class VC():
                 host.config.storageDevice.hostBusAdapter if isinstance(hba,vim.host.ParallelScsiHba)])
                 server['vc_env'] = self.env
                 server['vc_sync_time'] = self.sync_time
+                server['vc_src'] = self.src
                 server_list.append(server)
         return server_list
 
@@ -79,6 +81,7 @@ class VC():
         vm['vc_vm_os_version'] = vcenter_obj.summary.config.guestFullName
         vm['vc_env'] = self.env
         vm['vc_sync_time'] = self.sync_time
+        vm['vc_src']=self.src
         return vm
 
     def get_vm_list(self, dc):
@@ -111,6 +114,7 @@ class VC():
             ds['vc_vms'] = [vm.name for vm in v_ds.vm]
             ds['vc_hosts'] = [host.key.name for host in v_ds.host]
             ds['vc_env'] = self.env
+            ds['vc_src'] =self.src
             datastore_list.append(ds)
         return datastore_list
 
@@ -129,5 +133,6 @@ class VC():
                 license['total'] = it.total
                 license['used'] = it.used
                 license['environment'] = self.env
+                license['src'] = self.src
                 license_list.append(license)
         return license_list
