@@ -65,7 +65,12 @@ if __name__ == '__main__':
         opt_time = time.strftime('%Y%m%d',time.localtime(time.time()))
         target_dir = "/itop_data/http_dir/share/"
 
-        to_json(server_list,os.path.join(target_dir"server_list_%s_%s.json") % (args.host, opt_time))
-        to_json(vm_list,os.path.join(target_dir"vm_list_%s_%s.json") % (args.host, opt_time))
-        to_json(ds_list,os.path.join(target_dir"ds_list_%s_%s.json") % (args.host, opt_time))
-        to_json(license_list,os.path.join(target_dir"license_list_%s_%s.json") % (args.host, opt_time))
+        server_json = "server_list_%s_%s.json" % (args.host, opt_time)
+        vm_json = "vm_list_%s_%s.json" % (args.host, opt_time)
+        ds_json = "ds_list_%s_%s.json" % (args.host, opt_time)
+        license_json = "license_list_%s_%s.json" % (args.host, opt_time)
+
+        to_json(server_list,os.path.join(target_dir,server_json))
+        to_json(vm_list,os.path.join(target_dir,vm_json))
+        to_json(ds_list,os.path.join(target_dir,ds_json))
+        to_json(license_list,os.path.join(target_dir,license_json))
