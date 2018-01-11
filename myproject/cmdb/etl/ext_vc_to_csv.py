@@ -46,17 +46,11 @@ def to_json(data,filepath):
 
 def to_csv(data,filepath):
     logger.info("start dump to csv: %s" % filepath)
-    csvfile = open(filepath,'w',newline='')
-    for line in data:
-        dic=json.loads(line[0:-2])
-        keys=dic.keys()
-        break
-    writer = csv.writer(csvfile)
-    writer.writerow(keys)
-    for dic in data:
-        dic=json.loads(dic[0:-2])
-        writer.writerow(dic.values())
-    csvfile.close()
+    f = open(filepath,'wb')
+    w = csv.DictWriter(f,data.keys())
+    w.writeheader()
+    w.writerows(data)
+    f.close()
 
 
 
